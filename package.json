@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' src/spawn-and-swamp/main.ts",
-    "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/[name]/main.mjs' --watch src/{ctf,sns,cnc}/basic/advanced/*-main.ts",
+    "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' --watch src/spawn-and-swamp/main.ts",
     "lint": "bun biome lint src/",
     "fmt": "bun biome format src/",
     "check": "bun biome check src/"
