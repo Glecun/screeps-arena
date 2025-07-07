@@ -1,10 +1,16 @@
-# Screeps Arena TypeScript Starter with bun
+# Screeps Arena 
 
-This repo is unofficial starter template.
+## Tâches
 
-This repo uses devcontainers. you can use bun without any installation external tools.
+- [x] Role Guard (defend and destroy wall)
+- [ ] Implement a max number of creep by role
+- [ ] Army behavior (send army instead of units one by one)
+- [ ] Ranged 
+- [ ] Spawner wait for a bigger creep if it is worth it ? (harverster carrying energy)
+- [ ] Role builder (build turrets)
+- [ ] strategy ?
 
-To install dependencies:
+## Dev
 
 ```bash
 bun install

@@ -1,5 +1,5 @@
 import { getObjectsByPrototype, findClosestByPath } from "game/utils";
-import { Creep, Source, ConstructionSite } from "game/prototypes";
+import { type Creep, Source, ConstructionSite } from "game/prototypes";
 import { ERR_NOT_IN_RANGE } from "game/constants";
 import { harvesterUpdate } from "./harvester";
 import { action } from "../utils/utils";
