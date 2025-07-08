@@ -6,3 +6,12 @@ export type CreepState = {
 }
 
 export type Role = "harvester" | "builder" | "attacker" | "guard";
+
+export interface RoleConfig {
+    role: Role;
+    bodies: BodyPartType[][];
+    min: number;
+    max: number;
+    runner: (creep: Creep) => void;
+    weight: number;
+}
