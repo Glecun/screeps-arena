@@ -8,8 +8,9 @@ import {myCreeps} from '../creeps/registry';
 import {action} from '../utils/utils';
 import type {CreepState, Role, RoleConfig} from '../creeps/types';
 import {attackerConfig} from '../creeps/roles/attacker';
+import {attackerRangedConfig} from '../creeps/roles/attacker-ranged';
 
-const creepSkeletons: RoleConfig[] = [harvesterConfig, builderConfig, guardConfig, attackerConfig];
+const creepSkeletons: RoleConfig[] = [harvesterConfig, builderConfig, guardConfig, attackerConfig, attackerRangedConfig];
 
 let creepBeingSpawed: (CreepState & {creep: Creep}) | undefined;
 
@@ -65,6 +66,7 @@ export function getCreepCounts(): {counts: Record<Role, number>; total: number} 
         builder: all.filter((c) => c.role === 'builder').length,
         attacker: all.filter((c) => c.role === 'attacker').length,
         guard: all.filter((c) => c.role === 'guard').length,
+        'attacker-ranged': all.filter((c) => c.role === 'attacker-ranged').length,
     };
     return {counts, total: Object.values(counts).reduce((a, b) => a + b, 0)};
 }
@@ -84,10 +86,14 @@ function trySpawn(skeleton: RoleConfig, spawn: StructureSpawn): void {
 }
 
 function mostExpensiveAffordableBody(bodies: BodyPartType[][], energy: number): BodyPartType[] | undefined {
-    const affordableBodies = bodies.filter((body) => body.reduce((a, b) => a + BODYPART_COST[b], 0) <= energy);
+    const affordableBodies: BodyPartType[][] = bodies.filter(
+        (body) => body.reduce((a: number, b: BodyPartType) => a + BODYPART_COST[b as keyof typeof BODYPART_COST], 0) <= energy,
+    );
     if (affordableBodies.length === 0) return undefined;
     const mostExpensiveBodies = affordableBodies.sort(
-        (a, b) => b.reduce((a, b) => a + BODYPART_COST[b], 0) - a.reduce((a, b) => a + BODYPART_COST[b], 0),
+        (a, b) =>
+            b.reduce((a: number, b: BodyPartType) => a + BODYPART_COST[b as keyof typeof BODYPART_COST], 0) -
+            a.reduce((a: number, b: BodyPartType) => a + BODYPART_COST[b as keyof typeof BODYPART_COST], 0),
     );
     return mostExpensiveBodies[0]!;
 }

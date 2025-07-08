@@ -7,7 +7,7 @@ import type {RoleConfig} from '../types';
 import {getCurrentArmyOrCreate} from '../../strategy/army';
 import {guardRunner} from './guard';
 
-function attackerRunner(creep: Creep): void {
+export function attackerRunner(creep: Creep): void {
     const enemies = getObjectsByPrototype(Creep).filter((c) => c.my === false);
     //@ts-ignore
     const structures = getObjectsByPrototype(OwnedStructure).filter((c) => c.my === false);

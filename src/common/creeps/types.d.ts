@@ -5,7 +5,7 @@ export type CreepState = {
     runner: (creep: Creep) => void;
 };
 
-export type Role = 'harvester' | 'builder' | 'attacker' | 'guard';
+export type Role = 'harvester' | 'builder' | 'attacker' | 'guard' | 'attacker-ranged';
 
 export interface RoleConfig {
     role: Role;
