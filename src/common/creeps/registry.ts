@@ -1,3 +1,3 @@
-import type { CreepState } from "./types";
+import type {CreepState} from './types';
 
-export const myCreeps = new Map<string, CreepState>(); 
+export const myCreeps = new Map<string, CreepState>();

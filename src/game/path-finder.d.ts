@@ -1,5 +1,5 @@
-declare module "game/path-finder" {
-    import { Position } from "game/prototypes";
+declare module 'game/path-finder' {
+    import {Position} from 'game/prototypes';
 
     export type SearchPathOptions = {
         /** Custom navigation cost data */
@@ -26,7 +26,7 @@ declare module "game/path-finder" {
 
         /** Weight from 1 to 9 to apply to the heuristic in the A* formula F = G + weight * H. The default value is 1.2 */
         heuristicWeight?: number;
-    }
+    };
 
     export type SearchPathResult = {
         /** The path found as an array of objects containing x and y properties */
@@ -40,7 +40,7 @@ declare module "game/path-finder" {
 
         /** If the pathfinder fails to find a complete path, this will be true */
         incomplete: boolean;
-    }
+    };
 
     /**
      * Container for custom navigation cost data.
@@ -74,7 +74,7 @@ declare module "game/path-finder" {
         clone(): CostMatrix;
     }
 
-    export type Goal = Position | {pos: Position, range: number};
+    export type Goal = Position | {pos: Position; range: number};
 
     /**
      * Find an optimal path between origin and goal.

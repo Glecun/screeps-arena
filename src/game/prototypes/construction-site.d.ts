@@ -1,4 +1,4 @@
-declare module "game/prototypes" {
+declare module 'game/prototypes' {
     /**
      * A site of a structure which is currently under construction
      */

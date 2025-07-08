@@ -1,9 +1,9 @@
-import {SearchPathOptions} from "../path-finder";
+import {SearchPathOptions} from '../path-finder';
 
-declare module "game/prototypes" {
-    import { getObjectById, FindPathOptions } from "game/utils";
+declare module 'game/prototypes' {
+    import {getObjectById, FindPathOptions} from 'game/utils';
 
-    import { findPath } from "game/utils"; // eslint-disable-line @typescript-eslint/no-unused-vars
+    import {findPath} from 'game/utils'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     /** Position of object in the room */
     export type Position = {
@@ -12,7 +12,7 @@ declare module "game/prototypes" {
 
         /** The Y coordinate in the room */
         y: number;
-    }
+    };
 
     /**
      * Basic prototype for game objects.
@@ -23,7 +23,7 @@ declare module "game/prototypes" {
         exists: boolean;
 
         /** The unique ID of this object that you can use in {@link getObjectById} */
-        id: number|string;
+        id: number | string;
 
         /** If defined, then this object will disappear after this number of ticks*/
         ticksToDecay?: number;

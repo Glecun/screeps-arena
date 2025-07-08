@@ -1,4 +1,4 @@
-declare module "game/prototypes" {
+declare module 'game/prototypes' {
     /**
      * A small container that can be used to store resources.
      * This is a walkable structure.

@@ -1,3 +1,1 @@
-declare module "game" {
-
-}
+declare module 'game' {}

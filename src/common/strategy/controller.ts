@@ -1,5 +1,5 @@
-import { spawnCreeps } from "./spawner";
+import {spawnCreeps} from './spawner';
 
 export function runStrategy(): void {
-  spawnCreeps();
-} 
+    spawnCreeps();
+}

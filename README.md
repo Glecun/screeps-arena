@@ -1,11 +1,11 @@
-# Screeps Arena 
+# Screeps Arena
 
 ## Tâches
 
 - [x] Role Guard (defend and destroy wall)
 - [ ] Implement a max number of creep by role
 - [ ] Army behavior (send army instead of units one by one)
-- [ ] Ranged 
+- [ ] Ranged
 - [ ] Spawner wait for a bigger creep if it is worth it ? (harverster carrying energy)
 - [ ] Role builder (build turrets)
 - [ ] strategy ?
@@ -53,4 +53,3 @@ bun check
 ```
 
 This project was created using `bun init` in bun v1.0.20. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-

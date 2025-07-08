@@ -1,4 +1,4 @@
-declare module "game/prototypes" {
+declare module 'game/prototypes' {
     type ResourceType = string; // TODO: develop resource type
 
     /** An object that class contain resources in its cargo */

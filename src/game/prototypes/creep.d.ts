@@ -1,5 +1,5 @@
-declare module "game/prototypes" {
-    import { Direction, FindPathOptions } from "game/utils";
+declare module 'game/prototypes' {
+    import {Direction, FindPathOptions} from 'game/utils';
     import {
         OK,
         ERR_NOT_OWNER,
@@ -10,114 +10,75 @@ declare module "game/prototypes" {
         ERR_INVALID_ARGS,
         ERR_TIRED,
         ERR_NO_BODYPART,
-        ATTACK, CARRY, HEAL, MOVE, RANGED_ATTACK, WORK
-    } from "game/constants";
+        ATTACK,
+        CARRY,
+        HEAL,
+        MOVE,
+        RANGED_ATTACK,
+        WORK,
+    } from 'game/constants';
 
-    import { findPath } from "game/utils"; // eslint-disable-line @typescript-eslint/no-unused-vars
+    import {findPath} from 'game/utils'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
-    type BodyPartType =
-        typeof ATTACK |
-        typeof CARRY |
-        typeof HEAL |
-        typeof MOVE |
-        typeof RANGED_ATTACK |
-        typeof TOUGH |
-        typeof WORK;
+    type BodyPartType = typeof ATTACK | typeof CARRY | typeof HEAL | typeof MOVE | typeof RANGED_ATTACK | typeof TOUGH | typeof WORK;
 
-    type CreepAttackResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE;
+    type CreepAttackResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART | typeof ERR_INVALID_TARGET | typeof ERR_NOT_IN_RANGE;
 
     type CreepBuildResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_NOT_ENOUGH_RESOURCES |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE;
+        | typeof OK
+        | typeof ERR_NOT_OWNER
+        | typeof ERR_NO_BODYPART
+        | typeof ERR_NOT_ENOUGH_RESOURCES
+        | typeof ERR_INVALID_TARGET
+        | typeof ERR_NOT_IN_RANGE;
 
-    type CreepDropResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_INVALID_ARGS |
-        typeof ERR_NOT_ENOUGH_RESOURCES;
+    type CreepDropResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_INVALID_ARGS | typeof ERR_NOT_ENOUGH_RESOURCES;
 
     type CreepHarvestResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_ENOUGH_RESOURCES |
-        typeof ERR_NOT_IN_RANGE;
+        | typeof OK
+        | typeof ERR_NOT_OWNER
+        | typeof ERR_NO_BODYPART
+        | typeof ERR_INVALID_TARGET
+        | typeof ERR_NOT_ENOUGH_RESOURCES
+        | typeof ERR_NOT_IN_RANGE;
 
-    type CreepHealResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE;
+    type CreepHealResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART | typeof ERR_INVALID_TARGET | typeof ERR_NOT_IN_RANGE;
 
-    type CreepMoveResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_TIRED |
-        typeof ERR_INVALID_ARGS;
+    type CreepMoveResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART | typeof ERR_TIRED | typeof ERR_INVALID_ARGS;
 
-    type CreepPickupResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_FULL |
-        typeof ERR_NOT_IN_RANGE;
+    type CreepPickupResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_INVALID_TARGET | typeof ERR_FULL | typeof ERR_NOT_IN_RANGE;
 
     type CreepPullResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_TIRED |
-        typeof ERR_INVALID_TARGET|
-        typeof ERR_NOT_IN_RANGE;
+        | typeof OK
+        | typeof ERR_NOT_OWNER
+        | typeof ERR_NO_BODYPART
+        | typeof ERR_TIRED
+        | typeof ERR_INVALID_TARGET
+        | typeof ERR_NOT_IN_RANGE;
 
-    type CreepRangedAttackResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE;
+    type CreepRangedAttackResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART | typeof ERR_INVALID_TARGET | typeof ERR_NOT_IN_RANGE;
 
-    type CreepRangedHealResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE;
+    type CreepRangedHealResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART | typeof ERR_INVALID_TARGET | typeof ERR_NOT_IN_RANGE;
 
-    type CreepRangedMassAttackResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_NO_BODYPART;
+    type CreepRangedMassAttackResult = typeof OK | typeof ERR_NOT_OWNER | typeof ERR_NO_BODYPART;
 
     type CreepTransferResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_INVALID_ARGS |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE |
-        typeof ERR_FULL |
-        typeof ERR_NOT_ENOUGH_RESOURCES;
+        | typeof OK
+        | typeof ERR_NOT_OWNER
+        | typeof ERR_INVALID_ARGS
+        | typeof ERR_INVALID_TARGET
+        | typeof ERR_NOT_IN_RANGE
+        | typeof ERR_FULL
+        | typeof ERR_NOT_ENOUGH_RESOURCES;
 
     type CreepWithdrawResult =
-        typeof OK |
-        typeof ERR_NOT_OWNER |
-        typeof ERR_INVALID_ARGS |
-        typeof ERR_INVALID_TARGET |
-        typeof ERR_NOT_IN_RANGE |
-        typeof ERR_FULL |
-        typeof ERR_NOT_ENOUGH_RESOURCES;
+        | typeof OK
+        | typeof ERR_NOT_OWNER
+        | typeof ERR_INVALID_ARGS
+        | typeof ERR_INVALID_TARGET
+        | typeof ERR_NOT_IN_RANGE
+        | typeof ERR_FULL
+        | typeof ERR_NOT_ENOUGH_RESOURCES;
 
     /**
      * Creeps are units that can move, harvest energy, construct structures, attack another creeps, and perform other actions.
@@ -125,7 +86,7 @@ declare module "game/prototypes" {
      */
     export class Creep extends GameObject {
         /** An array describing the creep’s body */
-        body: Array<{type: BodyPartType, hits: number}>;
+        body: Array<{type: BodyPartType; hits: number}>;
 
         /** The movement fatigue indicator. If it is greater than zero, the creep cannot move */
         fatigue: number;
@@ -150,7 +111,7 @@ declare module "game/prototypes" {
          * @param target The target object
          * @returns Either {@link OK} or one of ERR_* error codes
          */
-        attack(target: Creep|Structure): CreepAttackResult;
+        attack(target: Creep | Structure): CreepAttackResult;
 
         /**
          * Build a structure at the target construction site using carried energy.
@@ -216,7 +177,7 @@ declare module "game/prototypes" {
          * @param target The target object to be attacked
          * @returns Either {@link OK} or one of ERR_* error codes
          */
-        rangedAttack(target: Creep|Structure): CreepRangedAttackResult;
+        rangedAttack(target: Creep | Structure): CreepRangedAttackResult;
 
         /**
          * Heal another creep at a distance. Requires the {@link HEAL} body part
@@ -237,7 +198,7 @@ declare module "game/prototypes" {
          * @param resource One of the RESOURCE_* constants
          * @param amount The amount of resources to be transferred. If omitted, all the available carried amount is used
          */
-        transfer(target: Structure|Creep, resource: ResourceType, amount?: number): CreepTransferResult;
+        transfer(target: Structure | Creep, resource: ResourceType, amount?: number): CreepTransferResult;
 
         /**
          * Withdraw resources from a structure

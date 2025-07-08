@@ -1,5 +1,4 @@
-declare module "game/prototypes" {
+declare module 'game/prototypes' {
     /** Blocks movement of all creeps */
-    export class StructureWall extends Structure {
-    }
+    export class StructureWall extends Structure {}
 }

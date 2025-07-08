@@ -1,2 +1,2 @@
-import { loop } from "./loop.js";
-export { loop };
+import {loop} from './loop.js';
+export {loop};

@@ -1,10 +1,10 @@
 // test
-declare module "game/visual" {
-    import { Position, GameObject } from "game/prototypes"; // eslint-disable-line @typescript-eslint/no-unused-vars
+declare module 'game/visual' {
+    import {Position, GameObject} from 'game/prototypes'; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     export type Color = string;
-    export type LineStyle = undefined | "dashed" | "dotted";
-    export type TextAlign = "center" | "left" | "right";
+    export type LineStyle = undefined | 'dashed' | 'dotted';
+    export type TextAlign = 'center' | 'left' | 'right';
 
     export interface CircleVisualStyle {
         /** Circle radius, default is 0.15 */
@@ -202,4 +202,3 @@ declare module "game/visual" {
         text(text: string, pos: Position, style?: TextVisualStyle): Visual;
     }
 }
-

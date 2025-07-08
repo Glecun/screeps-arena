@@ -1,4 +1,4 @@
-declare module "game/constants" {
+declare module 'game/constants' {
     export const OK = 0;
     export const ERR_NOT_OWNER = -1;
     export const ERR_NO_PATH = -2;
@@ -70,7 +70,7 @@ declare module "game/constants" {
     export const MAX_CREEP_SIZE = 50;
     export const CREEP_SPAWN_TIME = 3;
 
-    export const RESOURCE_ENERGY = "energy";
+    export const RESOURCE_ENERGY = 'energy';
     export const RESOURCES_ALL;
 
     export const SOURCE_ENERGY_REGEN = 10;

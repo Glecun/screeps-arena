@@ -1,7 +1,5 @@
-declare module "game/prototypes" {
-    import {
-        OK, ERR_NOT_OWNER, ERR_BUSY, ERR_INVALID_ARGS, ERR_NOT_ENOUGH_ENERGY
-    } from "game/constants";
+declare module 'game/prototypes' {
+    import {OK, ERR_NOT_OWNER, ERR_BUSY, ERR_INVALID_ARGS, ERR_NOT_ENOUGH_ENERGY} from 'game/constants';
 
     /** {@link createConstructionSite} call result*/
     export interface SpawnCreepResult {

@@ -1,27 +1,25 @@
 {
-  "name": "screeps-arena-typescript-bun-starter",
-  "module": "main.ts",
-  "type": "module",
-  "scripts": {
-    "build": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' src/spawn-and-swamp/main.ts",
-    "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' --watch src/spawn-and-swamp/main.ts",
-    "lint": "bun biome lint src/",
-    "fmt": "bun biome format src/",
-    "check": "bun biome check src/"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest",
-    "@types/lodash": "^4.17.13",
-    "@types/screeps-arena": "screepers/typed-screeps-arena#season-beta"
-  },
-  "peerDependencies": {
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "ansi-styles": "^6.2.1",
-    "lodash": "^4.17.21",
-    "loglevel": "^1.9.2",
-    "loglevel-plugin-prefix": "^0.8.4"
-  }
+    "name": "screeps-arena-typescript-bun-starter",
+    "module": "main.ts",
+    "type": "module",
+    "scripts": {
+        "build": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' src/spawn-and-swamp/main.ts",
+        "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' --watch src/spawn-and-swamp/main.ts",
+        "format": "prettier --write ."
+    },
+    "devDependencies": {
+        "@types/bun": "latest",
+        "@types/lodash": "^4.17.13",
+        "@types/screeps-arena": "screepers/typed-screeps-arena#season-beta",
+        "prettier": "^3.6.2"
+    },
+    "peerDependencies": {
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "ansi-styles": "^6.2.1",
+        "lodash": "^4.17.21",
+        "loglevel": "^1.9.2",
+        "loglevel-plugin-prefix": "^0.8.4"
+    }
 }

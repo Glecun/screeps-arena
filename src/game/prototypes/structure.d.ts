@@ -1,4 +1,4 @@
-declare module "game/prototypes" {
+declare module 'game/prototypes' {
     /** The base prototype object of all structures. */
     export class Structure extends GameObject {
         /** The current amount of hit points of the structure */
