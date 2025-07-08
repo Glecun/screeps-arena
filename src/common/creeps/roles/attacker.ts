@@ -4,23 +4,28 @@ import {BOTTOM, LEFT, RIGHT, TOP} from 'game/constants';
 import {action} from '../../utils/utils';
 import {ATTACK, MOVE} from 'game/constants';
 import type {RoleConfig} from '../types';
+import {getCurrentArmyOrCreate} from '../../strategy/army';
+import {guardRunner} from './guard';
 
 function attackerRunner(creep: Creep): void {
     const enemies = getObjectsByPrototype(Creep).filter((c) => c.my === false);
     //@ts-ignore
     const structures = getObjectsByPrototype(OwnedStructure).filter((c) => c.my === false);
-    const target = findClosestByPath(creep, [...enemies, ...structures]);
 
-    if (target) {
-        if (getRange(creep, target) <= 1) {
-            action(() => creep.attack(target));
-        } else {
-            action(() => creep.moveTo(target));
+    const army = getCurrentArmyOrCreate(creep);
+
+    if (army.state === 'attack') {
+        const target = findClosestByPath(creep, [...enemies, ...structures]);
+        if (target) {
+            if (getRange(creep, target) <= 1) {
+                action(() => creep.attack(target));
+            } else {
+                action(() => creep.moveTo(target));
+            }
         }
-    } else {
-        const dirs = [TOP, RIGHT, BOTTOM, LEFT] as const;
-        const randomDir = dirs[Math.floor(Math.random() * dirs.length)];
-        action(() => creep.move(randomDir));
+    }
+    if (army.state === 'rally') {
+        guardRunner(creep);
     }
 }
 
