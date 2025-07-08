@@ -1,9 +1,11 @@
 import { getObjectsByPrototype, findClosestByPath, getRange } from "game/utils";
 import { Creep, OwnedStructure } from "game/prototypes";
 import { BOTTOM, LEFT, RIGHT, TOP } from "game/constants";
-import { action } from "../utils/utils";
+import { action } from "../../utils/utils";
+import { ATTACK, MOVE } from "game/constants";
 
-export function attackerUpdate(creep: Creep): void {
+export const attackerBodies = [[ATTACK, MOVE], [ATTACK, ATTACK, MOVE], [ATTACK, ATTACK, ATTACK, MOVE, MOVE], [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE]];
+export function attackerRunner(creep: Creep): void {
   const enemies = getObjectsByPrototype(Creep).filter(c => c.my === false);
   //@ts-ignore
   const structures = getObjectsByPrototype(OwnedStructure).filter(c => c.my === false);

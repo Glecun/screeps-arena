@@ -1,9 +1,12 @@
 import { getObjectsByPrototype, findClosestByPath } from "game/utils";
 import { type Creep, Source, StructureContainer, StructureSpawn } from "game/prototypes";
 import { ERR_BUSY, ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, RESOURCE_ENERGY } from "game/constants";
-import { action } from "../utils/utils";
+import { action } from "../../utils/utils";
+import { CARRY, MOVE, WORK } from "game/constants";
 
-export function harvesterUpdate(creep: Creep): void {
+export const harvesterBodies = [[WORK, CARRY, MOVE], [WORK, CARRY, MOVE, MOVE], [WORK, CARRY, CARRY, MOVE, MOVE], [WORK, WORK, CARRY, CARRY, MOVE, MOVE]];
+
+export function harvesterRunner(creep: Creep): void {
   const sources = getObjectsByPrototype(Source).filter(source => source.energy > 0);
   const containers = getObjectsByPrototype(StructureContainer).filter(container => 
     container.store.getUsedCapacity(RESOURCE_ENERGY) ?? 0 > 0

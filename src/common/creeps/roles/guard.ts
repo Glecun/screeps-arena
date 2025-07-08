@@ -1,9 +1,12 @@
 import { findClosestByPath, getObjectsByPrototype, getRange } from "game/utils";
 import { Creep, OwnedStructure, StructureContainer, StructureSpawn, StructureWall, type CreepAttackResult } from "game/prototypes";
 import { ERR_NOT_IN_RANGE, OK, } from "game/constants";
-import { action } from "../utils/utils";
+import { action } from "../../utils/utils";
+import { ATTACK, MOVE } from "game/constants";
 
-export function guardUpdate(creep: Creep): void {
+export const guardBodies = [[ATTACK, MOVE], [ATTACK, ATTACK, MOVE], [ATTACK, ATTACK, ATTACK, MOVE, MOVE], [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE]];
+
+export function guardRunner(creep: Creep): void {
     const spawn = getObjectsByPrototype(StructureSpawn).filter(spawn => spawn.my)[0];
 
     if(attackCloseFromSpawnEnemies(creep, spawn)) return;

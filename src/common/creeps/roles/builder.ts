@@ -1,14 +1,18 @@
 import { getObjectsByPrototype, findClosestByPath } from "game/utils";
 import { type Creep, Source, ConstructionSite } from "game/prototypes";
 import { ERR_NOT_IN_RANGE } from "game/constants";
-import { harvesterUpdate } from "./harvester";
-import { action } from "../utils/utils";
+import { harvesterRunner } from "./harvester";
+import { action } from "../../utils/utils";
+import { CARRY, MOVE, WORK } from "game/constants";
 
-export function builderUpdate(creep: Creep): void {
+
+export const builderBodies = [[WORK, CARRY, MOVE], [WORK, CARRY, CARRY, MOVE]];
+
+export function builderRunner(creep: Creep): void {
   const sites = getObjectsByPrototype(ConstructionSite);
   const site = findClosestByPath(creep, sites);
   if (!site) {
-    harvesterUpdate(creep);
+    harvesterRunner(creep);
     return;
   }
 
@@ -17,13 +21,13 @@ export function builderUpdate(creep: Creep): void {
     if (source) {
       action(
         () => creep.harvest(source),
-        new Map([[ERR_NOT_IN_RANGE, () => action(() => creep.moveTo(source))]])
+        {[ERR_NOT_IN_RANGE]: () => action(() => creep.moveTo(source))}
       );
     }
   } else {
     action(
       () => creep.build(site),
-      new Map([[ERR_NOT_IN_RANGE, () => action(() => creep.moveTo(site))]])
+      {[ERR_NOT_IN_RANGE]: () => action(() => creep.moveTo(site))}
     );
   }
 } 

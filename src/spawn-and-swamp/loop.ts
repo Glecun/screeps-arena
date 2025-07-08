@@ -1,6 +1,6 @@
 import { getObjectsByPrototype } from "game/utils";
 import { Creep } from "game/prototypes";
-import { harvesterUpdate } from "../common/fsm/harvester";
+import { harvesterRunner } from "../common/creeps/roles/harvester";
 import { myCreeps } from "../common/creeps/registry";
 import { runStrategy } from "../common/strategy/controller";
 import { logInfos } from "../common/utils/utils";
@@ -12,8 +12,8 @@ export function loop(): void {
 } 
 
 function getRunner(id: string): (creep: Creep) => void {
-  const runner = myCreeps.get(id)?.run;
-  return runner ?? harvesterUpdate;
+  const runner = myCreeps.get(id)?.runner;
+  return runner ?? harvesterRunner;
 }
 
 function runScreeps() {

@@ -1,26 +1,30 @@
 import { getObjectsByPrototype } from "game/utils";
 import { type Creep, StructureSpawn, type BodyPartType, type SpawnCreepResult } from "game/prototypes";
-import { ATTACK, BODYPART_COST, CARRY, ERR_BUSY, MOVE, WORK } from "game/constants";
-import { harvesterUpdate } from "../fsm/harvester";
-import { builderUpdate } from "../fsm/builder";
-import { attackerUpdate } from "../fsm/attacker";
-import { myCreeps } from "./registry";
+import { BODYPART_COST, ERR_BUSY } from "game/constants";
+import { harvesterBodies, harvesterRunner } from "../creeps/roles/harvester";
+import { builderBodies, builderRunner } from "../creeps/roles/builder";
+import { attackerBodies, attackerRunner } from "../creeps/roles/attacker";
+import { guardBodies, guardRunner } from "../creeps/roles/guard";
+import { myCreeps } from "../creeps/registry";
 import { action } from "../utils/utils";
-import type { CreepState, Role, RoleConfig } from "./types";
-import { guardUpdate } from "../fsm/guard";
+import type { CreepState, Role } from "../creeps/types";
+
+export interface RoleConfig {
+    role: Role;
+    bodies: BodyPartType[][];
+    min: number;
+    runner: (creep: Creep) => void;
+    weight: number;
+}
+
+const creepSkeletons: RoleConfig[] = [
+  { role: "harvester", runner: harvesterRunner, bodies: harvesterBodies, min: 2, weight: 3 },
+  { role: "builder", runner: builderRunner, bodies: builderBodies, min: 1, weight: 1 },
+  { role: "guard", runner: guardRunner, bodies: guardBodies, min: 1, weight: 1 },
+  { role: "attacker", runner: attackerRunner, bodies: attackerBodies, min: 1, weight: 5 },
+];
 
 let creepBeingSpawed: CreepState & { creep: Creep } | undefined ;
-
-const harvesterBodies = [[WORK, CARRY, MOVE], [WORK, CARRY, MOVE, MOVE], [WORK, CARRY, CARRY, MOVE, MOVE], [WORK, WORK, CARRY, CARRY, MOVE, MOVE]];
-const builderBodies = [[WORK, CARRY, MOVE], [WORK, CARRY, CARRY, MOVE]];
-const attackerBodies = [[ATTACK, MOVE], [ATTACK, ATTACK, MOVE], [ATTACK, ATTACK, ATTACK, MOVE, MOVE], [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE]];
-const guardBodies = [[ATTACK, MOVE], [ATTACK, ATTACK, MOVE], [ATTACK, ATTACK, ATTACK, MOVE, MOVE], [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE]];
-const creepSkeletons: RoleConfig[] = [
-  { role: "harvester", run: harvesterUpdate, bodies: harvesterBodies, min: 2, weight: 3 },
-  { role: "builder", run: builderUpdate, bodies: builderBodies, min: 1, weight: 1 },
-  { role: "guard", run: guardUpdate, bodies: guardBodies, min: 1, weight: 1 },
-  { role: "attacker", run: attackerUpdate, bodies: attackerBodies, min: 1, weight: 5 },
-];
 
 export function spawnCreeps(): void {
   updateCreepBeingSpawned();
@@ -59,7 +63,7 @@ function updateCreepBeingSpawned() {
   if (creepBeingSpawed?.creep.exists) {
     myCreeps.set(creepBeingSpawed.creep.id.toString(), {
       role: creepBeingSpawed.role,
-      run: creepBeingSpawed.run
+      runner: creepBeingSpawed.runner
     });
     creepBeingSpawed = undefined;
   }
@@ -84,7 +88,7 @@ function trySpawn(skeleton: RoleConfig, spawn: StructureSpawn): void {
   if (result && typeof result === 'object' && 'object' in result && result.object) {
     creepBeingSpawed = {
       role: skeleton.role,
-      run: skeleton.run,
+      runner: skeleton.runner,
       creep: result.object
     };
   }

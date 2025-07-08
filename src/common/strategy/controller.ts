@@ -1,4 +1,4 @@
-import { spawnCreeps } from "../creeps/spawner";
+import { spawnCreeps } from "./spawner";
 
 export function runStrategy(): void {
   spawnCreeps();
