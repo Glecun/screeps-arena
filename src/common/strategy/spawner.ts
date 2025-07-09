@@ -9,8 +9,9 @@ import {action} from '../utils/utils';
 import type {CreepState, Role, RoleConfig} from '../creeps/types';
 import {attackerConfig} from '../creeps/roles/attacker';
 import {attackerRangedConfig} from '../creeps/roles/attacker-ranged';
+import {superSoldierConfig} from '../creeps/roles/super-soldier';
 
-const creepSkeletons: RoleConfig[] = [harvesterConfig, builderConfig, guardConfig, attackerConfig, attackerRangedConfig];
+const creepSkeletons: RoleConfig[] = [harvesterConfig, builderConfig, guardConfig, attackerConfig, attackerRangedConfig, superSoldierConfig];
 
 let creepBeingSpawed: (CreepState & {creep: Creep}) | undefined;
 
@@ -67,6 +68,7 @@ export function getCreepCounts(): {counts: Record<Role, number>; total: number} 
         attacker: all.filter((c) => c.role === 'attacker').length,
         guard: all.filter((c) => c.role === 'guard').length,
         'attacker-ranged': all.filter((c) => c.role === 'attacker-ranged').length,
+        'super-soldier': all.filter((c) => c.role === 'super-soldier').length,
     };
     return {counts, total: Object.values(counts).reduce((a, b) => a + b, 0)};
 }

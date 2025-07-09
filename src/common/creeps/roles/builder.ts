@@ -29,4 +29,4 @@ export function builderRunner(creep: Creep): void {
     }
 }
 
-export const builderConfig: RoleConfig = {role: 'builder', runner: builderRunner, bodies: builderBodies, min: 1, max: 1, weight: 1};
+export const builderConfig: RoleConfig = {role: 'builder', runner: builderRunner, bodies: builderBodies, min: 0, max: 0, weight: 1};

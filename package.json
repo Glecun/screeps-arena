@@ -3,8 +3,8 @@
     "module": "main.ts",
     "type": "module",
     "scripts": {
-        "build": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' src/spawn-and-swamp/main.ts",
-        "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming '[dir]/main.mjs' --watch src/spawn-and-swamp/main.ts",
+        "build": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming [dir]/main.mjs src/spawn-and-swamp/main.ts",
+        "build:watch": "bun build --external game --external arena --outdir ./dist --root ./src --entry-naming [dir]/main.mjs --watch src/spawn-and-swamp/main.ts",
         "format": "prettier --write ."
     },
     "devDependencies": {

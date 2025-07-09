@@ -1,4 +1,5 @@
 import {
+    ATTACK,
     ERR_BUSY,
     ERR_FULL,
     ERR_INVALID_ARGS,
@@ -11,9 +12,11 @@ import {
     ERR_NOT_IN_RANGE,
     ERR_NOT_OWNER,
     ERR_TIRED,
+    RANGED_ATTACK,
 } from 'game/constants';
 import {myCreeps} from '../creeps/registry';
-import type {SpawnCreepResult} from 'game/prototypes';
+import type {Creep, SpawnCreepResult, Structure} from 'game/prototypes';
+import { armies } from '../strategy/army';
 
 export function action<T extends SpawnCreepResult | number>(
     action: () => T,
@@ -40,7 +43,8 @@ let tickCounter = 0;
 export function logInfos(): void {
     tickCounter = tickCounter + 1;
     if (tickCounter >= 20) {
-        console.log('creepsStateMachine', myCreeps);
+        console.log('myCreeps', myCreeps);
+        console.log('armies', armies);
         tickCounter = 0;
     }
 }
@@ -76,4 +80,14 @@ function toStringError(error: number): string {
         default:
             return 'UNKNOWN';
     }
+}
+
+export function getAttack(creep: Creep) {
+    if(creep.body.find(b => b.type === ATTACK)) {
+        return (target: any) => creep.attack(target);
+    }
+    if(creep.body.find(b => b.type === RANGED_ATTACK)) {
+        return (target: any) => creep.rangedAttack(target);
+    }
+    return (target: any) => {return ERR_NO_BODYPART};
 }

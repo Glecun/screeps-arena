@@ -1,7 +1,7 @@
 import {findClosestByPath, getObjectsByPrototype, getRange} from 'game/utils';
 import {Creep, OwnedStructure, StructureContainer, StructureSpawn, StructureWall, type CreepAttackResult} from 'game/prototypes';
-import {ERR_NOT_IN_RANGE, OK} from 'game/constants';
-import {action} from '../../utils/utils';
+import {ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, OK} from 'game/constants';
+import {action, getAttack} from '../../utils/utils';
 import {ATTACK, MOVE} from 'game/constants';
 import type {RoleConfig} from '../types';
 
@@ -35,10 +35,11 @@ function attackCloseFromSpawnEnemies(creep: Creep, spawn: StructureSpawn): boole
 
     if (target) {
         if (getRange(spawn, target) <= 20) {
-            const {executed} = action<CreepAttackResult>(() => creep.attack(target), {
+            const {executed} = action(() => getAttack(creep)(target), {
                 [ERR_NOT_IN_RANGE]: () => {
                     action(() => creep.moveTo(target));
                 },
+                [ERR_INVALID_TARGET]: () => ({}),
             });
             return executed;
         }
@@ -53,10 +54,11 @@ function destroyBlockingWalls(creep: Creep, spawn: StructureSpawn): boolean {
         const minHits = Math.min(...walls.map((wall) => wall.hits || 0));
         const wallsWithMinHits = walls.filter((wall) => (wall.hits || 0) === minHits);
         const targetWall = findClosestByPath(creep, wallsWithMinHits);
-        const {executed} = action<CreepAttackResult>(() => creep.attack(targetWall), {
+        const {executed} = action(() => getAttack(creep)(targetWall), {
             [ERR_NOT_IN_RANGE]: () => {
                 action(() => creep.moveTo(targetWall));
             },
+            [ERR_INVALID_TARGET]: () => ({}),
         });
         return executed;
     }
@@ -75,6 +77,6 @@ export const guardConfig: RoleConfig = {
     runner: guardRunner,
     bodies: guardBodies,
     min: 1,
-    max: 4,
+    max: 3,
     weight: 1,
 };

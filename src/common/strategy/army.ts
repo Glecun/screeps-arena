@@ -4,14 +4,14 @@ type Army = {
     state: 'rally' | 'attack';
     creeps: string[];
 };
-const MAX_CREEPS_PER_ARMY = 6;
-const armies: Army[] = [{state: 'rally', creeps: []}];
+const MAX_CREEPS_PER_ARMY = 3;
+export const armies: Army[] = [{state: 'rally', creeps: []}];
 
 export function getCurrentArmyOrCreate(creep: Creep): Army {
-    const currentArmy = armies.find((army) => army.creeps.includes(creep.id));
+    const currentArmy = armies.find((army) => army.creeps.includes(creep.id.toString()));
     if (!currentArmy) {
         const armyAvailable = getArmyAvailableOrCreate();
-        armyAvailable.creeps.push(creep.id);
+        armyAvailable.creeps.push(creep.id.toString());
         if (armyAvailable.creeps.length >= MAX_CREEPS_PER_ARMY) {
             armyAvailable.state = 'attack';
         }

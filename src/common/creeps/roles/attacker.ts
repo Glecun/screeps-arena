@@ -1,8 +1,8 @@
 import {getObjectsByPrototype, findClosestByPath, getRange} from 'game/utils';
 import {Creep, OwnedStructure} from 'game/prototypes';
-import {BOTTOM, LEFT, RIGHT, TOP} from 'game/constants';
-import {action} from '../../utils/utils';
-import {ATTACK, MOVE} from 'game/constants';
+import {BOTTOM, ERR_BUSY, ERR_INVALID_TARGET, ERR_NO_BODYPART, LEFT, RIGHT, TOP, TOUGH} from 'game/constants';
+import {action, getAttack} from '../../utils/utils';
+import {ATTACK, ERR_NOT_IN_RANGE, MOVE} from 'game/constants';
 import type {RoleConfig} from '../types';
 import {getCurrentArmyOrCreate} from '../../strategy/army';
 import {guardRunner} from './guard';
@@ -17,11 +17,11 @@ export function attackerRunner(creep: Creep): void {
     if (army.state === 'attack') {
         const target = findClosestByPath(creep, [...enemies, ...structures]);
         if (target) {
-            if (getRange(creep, target) <= 1) {
-                action(() => creep.attack(target));
-            } else {
-                action(() => creep.moveTo(target));
-            }
+            action(() => getAttack(creep)(target), {
+                [ERR_NOT_IN_RANGE]: () => action(() => creep.moveTo(target)),
+                [ERR_INVALID_TARGET]: () => ({}),
+                [ERR_NO_BODYPART]: () => ({}),
+            });
         }
     }
     if (army.state === 'rally') {
@@ -30,10 +30,9 @@ export function attackerRunner(creep: Creep): void {
 }
 
 const attackerBodies = [
-    [ATTACK, MOVE],
-    [ATTACK, ATTACK, MOVE],
-    [ATTACK, ATTACK, ATTACK, MOVE, MOVE],
-    [ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE],
+    [TOUGH, ATTACK, ATTACK, MOVE, MOVE],
+    [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE],
+    [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE],
 ];
 
-export const attackerConfig: RoleConfig = {role: 'attacker', runner: attackerRunner, bodies: attackerBodies, min: 1, max: 999, weight: 5};
+export const attackerConfig: RoleConfig = {role: 'attacker', runner: attackerRunner, bodies: attackerBodies, min: 0, max: 0, weight: 5};

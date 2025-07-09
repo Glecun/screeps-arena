@@ -5,7 +5,7 @@ export type CreepState = {
     runner: (creep: Creep) => void;
 };
 
-export type Role = 'harvester' | 'builder' | 'attacker' | 'guard' | 'attacker-ranged';
+export type Role = 'harvester' | 'builder' | 'attacker' | 'guard' | 'attacker-ranged' | 'super-soldier';
 
 export interface RoleConfig {
     role: Role;
@@ -15,3 +15,15 @@ export interface RoleConfig {
     runner: (creep: Creep) => void;
     weight: number;
 }
+
+/*
+BODYPART_COST = {
+    [WORK]: 100,
+    [MOVE]: 50,
+    [CARRY]: 50,
+    [ATTACK]: 80,
+    [RANGED_ATTACK]: 150,
+    [HEAL]: 250,
+    [TOUGH]: 10,
+}
+*/
