@@ -6,8 +6,8 @@
 - [x] Implement a max number of creep by role
 - [x] Army behavior (send army instead of units one by one)
 - [x] Ranged
-- [ ] Ranged heal move soldier
-- [ ] Improve destroy blocking walls
+- [x] Ranged heal move soldier
+- [x] Improve destroy blocking walls
 - [ ] Role builder (build turrets) ?
 - [ ] Spawner wait for a bigger creep if it is worth it ? (harverster carrying energy)
 

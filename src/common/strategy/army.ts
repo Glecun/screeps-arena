@@ -4,7 +4,7 @@ type Army = {
     state: 'rally' | 'attack';
     creeps: string[];
 };
-const MAX_CREEPS_PER_ARMY = 3;
+const MAX_CREEPS_PER_ARMY = 6;
 export const armies: Army[] = [{state: 'rally', creeps: []}];
 
 export function getCurrentArmyOrCreate(creep: Creep): Army {

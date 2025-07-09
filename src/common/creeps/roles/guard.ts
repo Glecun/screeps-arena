@@ -1,9 +1,10 @@
-import {findClosestByPath, getObjectsByPrototype, getRange} from 'game/utils';
+import {findClosestByPath, findPath, getObjectsByPrototype, getRange} from 'game/utils';
 import {Creep, OwnedStructure, StructureContainer, StructureSpawn, StructureWall, type CreepAttackResult} from 'game/prototypes';
-import {ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, OK} from 'game/constants';
+import {ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, OK, RESOURCE_ENERGY} from 'game/constants';
 import {action, getAttack} from '../../utils/utils';
 import {ATTACK, MOVE} from 'game/constants';
 import type {RoleConfig} from '../types';
+import { searchPath } from 'game/path-finder';
 
 export function guardRunner(creep: Creep): void {
     const spawn = getObjectsByPrototype(StructureSpawn).filter((spawn) => spawn.my)[0];
@@ -48,12 +49,57 @@ function attackCloseFromSpawnEnemies(creep: Creep, spawn: StructureSpawn): boole
 }
 
 function destroyBlockingWalls(creep: Creep, spawn: StructureSpawn): boolean {
+    if (attackDamagedWalls(creep, spawn)) return true;
+    if (attackWallBlockingContainer(creep)) return true;
+    if (attackWallsNearbySpawn(creep, spawn)) return true;
+    return false;
+}
+
+function attackWallBlockingContainer(creep: Creep): boolean {
+    const containers = getObjectsByPrototype(StructureContainer).filter((container) => container.store.getUsedCapacity(RESOURCE_ENERGY) ?? 0 > 0);
+    if (containers.length === 0) return false;
+
+    const closestContainers = containers.sort((a, b) => getRange(creep, a) - getRange(creep, b));
+    //@ts-ignore
+    const notAccessibleContainer = closestContainers.find((container) => findClosestByPath(creep, [container]) === null);
+    if (!notAccessibleContainer) return false;
+
+    const walls = getObjectsByPrototype(StructureWall).filter((wall) => getRange(notAccessibleContainer, wall) <= 3);
+    if (walls.length > 0) {
+        const targetWall = findClosestByPath(creep, walls);
+        const {executed} = action(() => getAttack(creep)(targetWall), {
+            [ERR_NOT_IN_RANGE]: () => {
+                action(() => creep.moveTo(targetWall));
+            },
+            [ERR_INVALID_TARGET]: () => ({}),
+        });
+        return executed;
+    }
+    return false;
+}
+
+function attackWallsNearbySpawn(creep: Creep, spawn: StructureSpawn): boolean {
     const walls = getObjectsByPrototype(StructureWall).filter((wall) => getRange(spawn, wall) <= 40);
 
     if (walls.length > 0) {
         const minHits = Math.min(...walls.map((wall) => wall.hits || 0));
         const wallsWithMinHits = walls.filter((wall) => (wall.hits || 0) === minHits);
         const targetWall = findClosestByPath(creep, wallsWithMinHits);
+        const {executed} = action(() => getAttack(creep)(targetWall), {
+            [ERR_NOT_IN_RANGE]: () => {
+                action(() => creep.moveTo(targetWall));
+            },
+            [ERR_INVALID_TARGET]: () => ({}),
+        });
+        return executed;
+    }
+    return false;
+}
+
+function attackDamagedWalls(creep: Creep, spawn: StructureSpawn): boolean {
+    const walls = getObjectsByPrototype(StructureWall).filter((wall) => getRange(spawn, wall) <= 40 && wall.hits! < wall.hitsMax!);
+    if (walls.length > 0) {
+        const targetWall = findClosestByPath(creep, walls);
         const {executed} = action(() => getAttack(creep)(targetWall), {
             [ERR_NOT_IN_RANGE]: () => {
                 action(() => creep.moveTo(targetWall));
