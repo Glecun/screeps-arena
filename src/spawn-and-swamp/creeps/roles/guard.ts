@@ -1,7 +1,7 @@
 import {findClosestByPath, findPath, getObjectsByPrototype, getRange} from 'game/utils';
 import {Creep, OwnedStructure, StructureContainer, StructureSpawn, StructureWall, type CreepAttackResult} from 'game/prototypes';
 import {ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, OK, RESOURCE_ENERGY} from 'game/constants';
-import {action, getAttack} from '../../utils/utils';
+import {action, getAttack} from '../../../common/utils/utils';
 import {ATTACK, MOVE} from 'game/constants';
 import type {RoleConfig} from '../types';
 import { searchPath } from 'game/path-finder';

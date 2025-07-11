@@ -5,7 +5,7 @@ import {harvesterConfig} from '../creeps/roles/harvester';
 import {builderConfig} from '../creeps/roles/builder';
 import {guardConfig} from '../creeps/roles/guard';
 import {myCreeps} from '../creeps/registry';
-import {action} from '../utils/utils';
+import {action} from '../../common/utils/utils';
 import type {CreepState, Role, RoleConfig} from '../creeps/types';
 import {attackerConfig} from '../creeps/roles/attacker';
 import {attackerRangedConfig} from '../creeps/roles/attacker-ranged';

@@ -2,7 +2,7 @@ import {getObjectsByPrototype, findClosestByPath} from 'game/utils';
 import {type Creep, Source, ConstructionSite} from 'game/prototypes';
 import {ERR_NOT_IN_RANGE} from 'game/constants';
 import {harvesterRunner} from './harvester';
-import {action} from '../../utils/utils';
+import {action} from '../../../common/utils/utils';
 import {CARRY, MOVE, WORK} from 'game/constants';
 import type {RoleConfig} from '../types';
 

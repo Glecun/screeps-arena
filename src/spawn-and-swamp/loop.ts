@@ -1,8 +1,8 @@
 import {getObjectsByPrototype} from 'game/utils';
 import {Creep} from 'game/prototypes';
-import {harvesterRunner} from '../common/creeps/roles/harvester';
-import {myCreeps} from '../common/creeps/registry';
-import {runStrategy} from '../common/strategy/controller';
+import {harvesterRunner} from './creeps/roles/harvester';
+import {myCreeps} from './creeps/registry';
+import {runStrategy} from './strategy/controller';
 import {logInfos} from '../common/utils/utils';
 
 export function loop(): void {

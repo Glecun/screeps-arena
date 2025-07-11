@@ -2,14 +2,14 @@
 
 ## Tâches
 
-- [x] Role Guard (defend and destroy wall)
-- [x] Implement a max number of creep by role
-- [x] Army behavior (send army instead of units one by one)
-- [x] Ranged
-- [x] Ranged heal move soldier
-- [x] Improve destroy blocking walls
-- [ ] Role builder (build turrets) ?
-- [ ] Spawner wait for a bigger creep if it is worth it ? (harverster carrying energy)
+- [x] Find a way to send army if struggling 
+   - (timer ?)
+   - Send everything at ~1500 tick ?
+- [ ] Prioritize attacked target with weight system
+- [ ] Builds Rampart (on spawn)
+- [ ] Builds Extension
+- [ ] Improve destroy walls
+    - no need to destroy walls with empty 
 
 ## Dev
 

@@ -14,9 +14,9 @@ import {
     ERR_TIRED,
     RANGED_ATTACK,
 } from 'game/constants';
-import {myCreeps} from '../creeps/registry';
+import {myCreeps} from '../../spawn-and-swamp/creeps/registry';
 import type {Creep, SpawnCreepResult, Structure} from 'game/prototypes';
-import { armies } from '../strategy/army';
+import { armies } from '../../spawn-and-swamp/strategy/army';
 
 export function action<T extends SpawnCreepResult | number>(
     action: () => T,

@@ -1,4 +1,6 @@
 import type {Creep} from 'game/prototypes';
+import { getTicks } from 'game/utils';
+import { arenaInfo } from 'game';
 
 type Army = {
     state: 'rally' | 'attack';
@@ -6,6 +8,14 @@ type Army = {
 };
 const MAX_CREEPS_PER_ARMY = 6;
 export const armies: Army[] = [{state: 'rally', creeps: []}];
+
+export function sendAllArmiesIfTImeIsRunningOut() {
+    if(getTicks() >= arenaInfo.ticksLimit * 0.8) {
+        for(const army of armies) {
+            army.state = 'attack';
+        }
+    }
+}
 
 export function getCurrentArmyOrCreate(creep: Creep): Army {
     const currentArmy = armies.find((army) => army.creeps.includes(creep.id.toString()));

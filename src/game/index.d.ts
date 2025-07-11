@@ -1,1 +1,5 @@
-declare module 'game' {}
+declare module 'game' {
+    export const arenaInfo: {
+        ticksLimit: number;
+    };
+}
