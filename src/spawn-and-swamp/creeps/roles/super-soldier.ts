@@ -21,7 +21,7 @@ export function superSoldierRunner(creep: Creep): void {
 
     const allEnemies = [...enemies, ...structures, ...walls].filter(e => army.state !== 'rally' || findInRange(e, [spawn], 25).length > 0);
 
-    const targets = orderTargetsByWeight(creep, allEnemies);
+    const targets = orderTargetsByWeight(creep, allEnemies, spawn);
     if (targets.length > 0) {
         moveToCloseRangeIfNeeded(creep, targets[0]);
         attackTargetOrFirstInRange(creep, targets);
@@ -64,25 +64,25 @@ function moveAwayFromEnemies(creep: Creep, enemies: Creep[]) {
 }
 
 
-function orderTargetsByWeight(creep: Creep, targets: (Creep | OwnedStructure)[]) {
+function orderTargetsByWeight(creep: Creep, targets: (Creep | OwnedStructure)[], spawn: StructureSpawn) {
     //console.log("-- creep", creep.id); // FOR DEBUGGING
     return targets
-       .map(target => ({target, weight: computeWeight(creep, target, targets) }))
+       .map(target => ({target, weight: computeWeight(creep, target, targets, spawn) }))
        .sort((a, b) => b.weight - a.weight)
        //.map(t => {console.log(t.target.id, t.weight); return t}) // FOR DEBUGGING
        .map(t => t.target);
 }
 
-function computeWeight(creep: Creep, target: Creep | OwnedStructure, targets: (Creep | OwnedStructure)[]): number {
+const weights = {
+    notInteresting: -10,
+    anecdotic: 1,
+    low: 2,
+    medium: 3,
+    high: 4,
+    veryHigh: 5,
+};
+function computeWeight(creep: Creep, target: Creep | OwnedStructure, targets: (Creep | OwnedStructure)[], spawn: StructureSpawn): number {
     let weight = 0;
-    const weights = {
-        notInteresting: -10,
-        anecdotic: 1,
-        low: 2,
-        medium: 3,
-        high: 4,
-        veryHigh: 5,
-    };
 
     // type
     if(target instanceof Creep) {
@@ -97,6 +97,8 @@ function computeWeight(creep: Creep, target: Creep | OwnedStructure, targets: (C
         if(isProtectedByRampart(targets, target)) {
             weight += weights.notInteresting;
         }
+
+        weight += weightCloseToSpawn(spawn, target);
     }
     if(target instanceof OwnedStructure) {
         if (target instanceof StructureRampart || target instanceof StructureRoad) {
@@ -121,7 +123,7 @@ function computeWeight(creep: Creep, target: Creep | OwnedStructure, targets: (C
         weight += (weights.notInteresting * 2);
 
         if(isBlockingContainer(creep, target)) {
-            weight += weights.anecdotic;
+            weight += weights.low;
         }
     }
 
@@ -129,38 +131,15 @@ function computeWeight(creep: Creep, target: Creep | OwnedStructure, targets: (C
     if (target.hits && target.hitsMax) {
         const damaged = target.hits < target.hitsMax;
         if(damaged) {
-            weight += weights.high;
-        }
-        const lowLife = target.hits < target.hitsMax * 0.3;
-        if(lowLife) {
-            weight += weights.high;
-        }
-        const veryLowLife = target.hits < target.hitsMax * 0.1;
-        if(veryLowLife) {
             weight += weights.veryHigh;
         }
+
+        weight += weightLowLife(target);
     }
     
     // distance
-    if(target instanceof StructureWall) {
-        return weight;
-    }
-    const targetInCloseRange = findInRange(creep, [target], 1).length > 0;
-    if(targetInCloseRange) {
-        weight += weights.veryHigh;
-    }
-    const targetInRange = findInRange(creep, [target], 3).length > 0;
-    if(targetInRange) {
-        weight += weights.high;
-    }
-    const notTooFar = findInRange(creep, [target], 10).length > 0;
-    if(notTooFar) {
-        weight += weights.low;
-    }
-    const aBitFar = findInRange(creep, [target], 20).length > 0;
-    if(aBitFar) {
-        weight += weights.anecdotic;
-    }
+    weight += weightDistance(creep, target);
+
     return weight;
 }
 
@@ -168,6 +147,57 @@ function isProtectedByRampart(targets: (Creep | OwnedStructure)[], target: Creep
     const ramparts = targets.filter(s => s instanceof StructureRampart);
     const protectedByRampart = ramparts.some(r => target.x === r.x && target.y === r.y);
     return protectedByRampart;
+}
+
+function weightCloseToSpawn(spawn: StructureSpawn, target: Creep | OwnedStructure) {
+    if (getRange(spawn, target) <= 25) {
+        return weights.veryHigh;
+    }
+
+    if (getRange(spawn, target) <= 45) {
+        return weights.low;
+    }
+    return 0;
+}
+
+function weightLowLife(target: Creep | OwnedStructure) {
+    if (!target.hits || !target.hitsMax) return 0;
+    const veryLowLife = target.hits < target.hitsMax * 0.1;
+    if(veryLowLife) {
+        return weights.veryHigh;
+    }
+    const lowLife = target.hits < target.hitsMax * 0.3;
+    if(lowLife) {
+        return weights.high;
+    }
+    const mediumLife = target.hits < target.hitsMax * 0.7;
+    if(mediumLife) {
+        return weights.medium;
+    }
+    return 0;
+}
+
+function weightDistance(creep: Creep, target: Creep | OwnedStructure) {
+    if(target instanceof StructureWall) {
+        return 0;
+    }
+    const targetInCloseRange = findInRange(creep, [target], 1).length > 0;
+    if(targetInCloseRange) {
+        return weights.veryHigh;
+    }
+    const targetInRange = findInRange(creep, [target], 3).length > 0;
+    if(targetInRange) {
+        return weights.high;
+    }
+    const notTooFar = findInRange(creep, [target], 10).length > 0;
+    if(notTooFar) {
+        return weights.low;
+    }
+    const aBitFar = findInRange(creep, [target], 20).length > 0;
+    if(aBitFar) {
+        return weights.anecdotic;
+    }
+    return 0;
 }
 
 function moveToCloseRangeIfNeeded(creep: Creep, target: Creep | OwnedStructure) {
@@ -209,18 +239,18 @@ function stayButMoveAwayFromStructures(creep: Creep, spawn: StructureSpawn) {
     }
 }
 
-
-const wallsBlockingContainer: string[] = [];
+// TODO fix timeout stachu3478 (count instead of finding path ?)
+let wallsBlockingContainer: string[] = [];
 function isBlockingContainer(creep: Creep, target: StructureWall) {
     const walls = getObjectsByPrototype(StructureWall)
-    const someWallsAreDead = walls.filter(w => wallsBlockingContainer.includes(w.id.toString()) && !w.exists).length > 0;
+    const someWallsAreDead = wallsBlockingContainer.some(blockingContainer => !walls.map(w => w.id.toString()).includes(blockingContainer));
     if(wallsBlockingContainer.length === 0 || someWallsAreDead) {
         const containersCloseToWalls = getObjectsByPrototype(StructureContainer).filter((container) => (container.store.getUsedCapacity(RESOURCE_ENERGY) ?? 0 > 0) && walls.some(wall => getRange(wall, container) <= 2));
         if (containersCloseToWalls.length === 0) return false;
         //@ts-ignore
         const notAccessibleContainers = containersCloseToWalls.filter((container) => findClosestByPath(creep, [container]) === null);
         if (notAccessibleContainers.length === 0) return false;
-        wallsBlockingContainer.push(...walls.filter(wall => notAccessibleContainers.some(container => getRange(container, wall) <= 2)).map(wall => wall.id.toString()));
+        wallsBlockingContainer = walls.filter(wall => notAccessibleContainers.some(container => getRange(container, wall) <= 2)).map(wall => wall.id.toString());
     }
 
     return wallsBlockingContainer.includes(target.id.toString());

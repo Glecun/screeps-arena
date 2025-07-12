@@ -9,9 +9,11 @@
 - [x] Place at right position to maximixe ranged damage
 - [x] Improve guards (or even remove it)
    - rally = defend spawn (target within xx range of spawn)
-- [ ] Heal in range allies if needed
-- [ ] Redo register system ?
-   - [ ] Fix army attack even if creep isn't spawn yet
+- [x] Heal in range allies if needed
+- [x] Redo register system ?
+   - [x] Fix army attack even if creep isn't spawn yet
+- [x] include enemy next to spawn in weight (MarvinTMB)
+- fix timeout stachu3478 (count instead of finding path ?)
 - [ ] Builds Rampart (on spawn)
 - [ ] Builds Extension
 

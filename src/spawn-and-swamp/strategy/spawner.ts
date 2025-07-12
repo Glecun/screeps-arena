@@ -51,7 +51,7 @@ function spawnAccordingToMin(counts: Record<Role, number>, spawn: StructureSpawn
 }
 
 function updateCreepBeingSpawned() {
-    if (creepBeingSpawed?.creep.exists) {
+    if (creepBeingSpawed?.creep.exists && !creepBeingSpawed.creep.spawning) {
         myCreeps.set(creepBeingSpawed.creep.id.toString(), {
             role: creepBeingSpawed.role,
             runner: creepBeingSpawed.runner,
