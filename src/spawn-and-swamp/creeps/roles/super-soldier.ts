@@ -39,7 +39,9 @@ function healIfNeeded(creep: Creep) {
     }
     const aCloseDamagedAlly = getObjectsByPrototype(Creep).filter((c) => c.my === true && c.id !== creep.id && getRange(creep, c) <= 2 && c.hits < c.hitsMax)[0];
     if (aCloseDamagedAlly) {
-        action(() => creep.heal(aCloseDamagedAlly));
+        action(() => creep.heal(aCloseDamagedAlly), {
+            [ERR_NOT_IN_RANGE]: () => {},
+        });
     }
 }
 
