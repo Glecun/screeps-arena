@@ -123,6 +123,6 @@ export const guardConfig: RoleConfig = {
     runner: guardRunner,
     bodies: guardBodies,
     min: 1,
-    max: 3,
+    max: 2,
     weight: 1,
 };

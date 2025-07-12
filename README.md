@@ -6,13 +6,14 @@
    - (timer ?)
    - Send everything at ~1500 tick ?
 - [x] Prioritize attacked target with weight system
-- [ ] Place at right position to maximixe ranged damage
+- [x] Place at right position to maximixe ranged damage
+- [x] Improve guards (or even remove it)
+   - rally = defend spawn (target within xx range of spawn)
+- [ ] Heal in range allies if needed
+- [ ] Redo register system ?
+   - [ ] Fix army attack even if creep isn't spawn yet
 - [ ] Builds Rampart (on spawn)
 - [ ] Builds Extension
-- [ ] Improve guards (or even remove it)
-   - rally = defend spawn (target within xx range of spawn)
-- [ ] Improve destroy walls
-    - no need to destroy walls with empty 
 
 ## Dev
 
