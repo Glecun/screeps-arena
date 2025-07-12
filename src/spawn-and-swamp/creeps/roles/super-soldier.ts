@@ -35,6 +35,11 @@ export function superSoldierRunner(creep: Creep): void {
 function healIfNeeded(creep: Creep) {
     if (creep.hits < creep.hitsMax) {
         action(() => creep.heal(creep));
+        return;
+    }
+    const aCloseDamagedAlly = getObjectsByPrototype(Creep).filter((c) => c.my === true && c.id !== creep.id && getRange(creep, c) <= 2 && c.hits < c.hitsMax)[0];
+    if (aCloseDamagedAlly) {
+        action(() => creep.heal(aCloseDamagedAlly));
     }
 }
 

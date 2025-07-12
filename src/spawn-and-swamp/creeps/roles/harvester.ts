@@ -1,6 +1,6 @@
 import {getObjectsByPrototype, findClosestByPath} from 'game/utils';
 import {type Creep, Source, StructureContainer, StructureSpawn} from 'game/prototypes';
-import {ERR_BUSY, ERR_FULL, ERR_INVALID_TARGET, ERR_NOT_IN_RANGE, RESOURCE_ENERGY} from 'game/constants';
+import {ERR_BUSY, ERR_FULL, ERR_INVALID_TARGET, ERR_NOT_ENOUGH_ENERGY, ERR_NOT_IN_RANGE, RESOURCE_ENERGY} from 'game/constants';
 import {action} from '../../../common/utils/utils';
 import {CARRY, MOVE, WORK} from 'game/constants';
 import type {RoleConfig} from '../types';
@@ -37,6 +37,7 @@ export function harvesterRunner(creep: Creep): void {
                 [ERR_INVALID_TARGET]: () => ({}),
                 [ERR_BUSY]: () => ({}),
                 [ERR_FULL]: () => ({}),
+                [ERR_NOT_ENOUGH_ENERGY]: () => ({}),
             });
         }
     }
