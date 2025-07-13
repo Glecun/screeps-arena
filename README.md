@@ -13,7 +13,7 @@
 - [x] Redo register system ?
    - [x] Fix army attack even if creep isn't spawn yet
 - [x] include enemy next to spawn in weight (MarvinTMB)
-- fix timeout stachu3478 (count instead of finding path ?)
+- [x] fix timeout stachu3478 (count instead of finding path ?)
 - [ ] Builds Rampart (on spawn)
 - [ ] Builds Extension
 

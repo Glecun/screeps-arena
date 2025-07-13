@@ -239,17 +239,22 @@ function stayButMoveAwayFromStructures(creep: Creep, spawn: StructureSpawn) {
     }
 }
 
-// TODO fix timeout stachu3478 (count instead of finding path ?)
-let wallsBlockingContainer: string[] = [];
+let wallsBlockingContainer: string[] | undefined = undefined;
 function isBlockingContainer(creep: Creep, target: StructureWall) {
     const walls = getObjectsByPrototype(StructureWall)
-    const someWallsAreDead = wallsBlockingContainer.some(blockingContainer => !walls.map(w => w.id.toString()).includes(blockingContainer));
-    if(wallsBlockingContainer.length === 0 || someWallsAreDead) {
+    const someWallsAreDead = wallsBlockingContainer && wallsBlockingContainer.some(wall => !walls.map(w => w.id.toString()).includes(wall));
+    if(!wallsBlockingContainer || someWallsAreDead) {
         const containersCloseToWalls = getObjectsByPrototype(StructureContainer).filter((container) => (container.store.getUsedCapacity(RESOURCE_ENERGY) ?? 0 > 0) && walls.some(wall => getRange(wall, container) <= 2));
-        if (containersCloseToWalls.length === 0) return false;
+        if (containersCloseToWalls.length === 0) {
+            wallsBlockingContainer = [];
+            return false;
+        }
         //@ts-ignore
         const notAccessibleContainers = containersCloseToWalls.filter((container) => findClosestByPath(creep, [container]) === null);
-        if (notAccessibleContainers.length === 0) return false;
+        if (notAccessibleContainers.length === 0) {
+            wallsBlockingContainer = [];
+            return false;
+        }
         wallsBlockingContainer = walls.filter(wall => notAccessibleContainers.some(container => getRange(container, wall) <= 2)).map(wall => wall.id.toString());
     }
 
